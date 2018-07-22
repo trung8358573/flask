@@ -55,25 +55,71 @@
             </form>
         </div>
     </nav>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Register
+      </button>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <form>
+                            <label>Full name</label>
+                             <div class="row">
+                                <div class="col">
+                                         <input type="text" class="form-control" placeholder="First name">
+                                          </div>
+                                          <div class="col">
+                                            <input type="text" class="form-control" placeholder="Last name">
+                                          </div>
+                                        </div>
+                            
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">Username</label>
+                                <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="Enter username"></input>                                                     
+                                <small id="usernameHelp" class="form-text text-muted">This is the name will be show to other user on this website, you can either use a nickname or your real name, but we really not recommend it.</small>
+                            </div>    
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter password">
+                                <small class="form-text text-muted">We'll never reveal your password to anyone and so do you!</small>
+                            </div>
+                            <div>
+                                <label for="examplePasswordCheck">Re-enter Password</label>
+                                <input type="password" class="form-control" id="examplePasswordCheck" aria-describedby="passwordCheck" placeholder="Re-enter password">
+                                <small id="passwordCheck" class="form-text text-muted">Make sure you remember it!</small>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                    
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
 
-    <form>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-    <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem;">
         <img class="card-img-top" src=".../100px180/" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>

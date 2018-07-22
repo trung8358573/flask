@@ -1,4 +1,4 @@
 flask
 flask-script
-Flast-SQLAlchemy
+Flask-SQLAlchemy
 psycopg2
