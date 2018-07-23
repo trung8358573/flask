@@ -1,2 +1,2 @@
-cd C:\Users\timtr\Desktop\flask
+cd C:\Users\Admin\Desktop\flask
 python source.py
