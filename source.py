@@ -11,9 +11,18 @@ def front_page():
     r = request
     return render_template('base.html')
 
-@app.route('/<name>')
-def hi(name):
-    return('<h1>hello %s</h1> !@') % name
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    password = db.Column(db.String(64))
+    post_ids = db.relationship('Post')
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Unicode)
+    link = db.Column(db.String(64))
+    description = db.Column(db.UnicodeText)
+    user_id = db.relationship('User')
 
 app.run(debug=True)
 
