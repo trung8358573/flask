@@ -1,6 +1,8 @@
 from flask import Flask as F
 from flask import request, render_template
 from flask_sqlalchemy import SQLAlchemy
+from wtforms import StringField, SubmitField, TextAreaField, Form
+from wtforms.validators import Required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -25,14 +27,13 @@ class User(db.Model):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     post_ids = db.relationship('Post')
 
-    @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
+    def  __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
         
@@ -45,8 +46,8 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-        def __repr__(self):
-            return f"Post('{self.title}', '{self.timestamp}')"
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.timestamp}')"
 
 
 class PostForm(Form):

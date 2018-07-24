@@ -1,9 +1,9 @@
-flask
+flask==1.0.2
 flask-script
 Flask-SQLAlchemy
-psycopg2
+psycopg2==2.7.5
 Flask-Social
 flask-wtf
 flask-login
-werkzeug
+werkzeug==0.14.1
 itsdangerous
