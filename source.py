@@ -9,7 +9,7 @@ db = SQLAlchemy(app)
 @app.route('/')
 def front_page():
     r = request
-    return render_template('base.html')
+    return render_template('index.html')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
