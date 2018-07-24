@@ -2,3 +2,8 @@ flask
 flask-script
 Flask-SQLAlchemy
 psycopg2
+Flask-Social
+flask-wtf
+flask-login
+werkzeug
+itsdangerous
