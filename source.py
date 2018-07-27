@@ -1,5 +1,9 @@
 from base import app
+from socket import gethostname
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    db.create_all()
+    if 'liveconsole' not in gethostname():
+        app.run(debug=True)
 
