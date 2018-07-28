@@ -1,4 +1,4 @@
-from base import app
+from base import app, db
 from socket import gethostname
 
 
