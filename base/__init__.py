@@ -4,7 +4,10 @@ from socket import gethostname
 
 app = F(__name__)
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> d2134b26053a04f29541cbda7e7a0e607bcea8ef
 if 'liveconsole' not in gethostname():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flask:flask@localhost/flask_db'
 else:
@@ -13,12 +16,18 @@ else:
     password="flaskflask",
     hostname="trung8358573.mysql.pythonanywhere-services.com",
     databasename="trung8358573$flask")
+<<<<<<< HEAD
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 =======
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flask:flask@localhost/flask_db'
+=======
+    app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+    app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+>>>>>>> d2134b26053a04f29541cbda7e7a0e607bcea8ef
 
 >>>>>>> 57f0a9480076ec88060e82a8a57133c9f4688212
 app.config['SECRET_KEY'] = 'hard to guess string'
