@@ -22,11 +22,11 @@ class User(db.Model):
     def  __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-        
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode, nullable=False)
+    title = db.Column(db.Unicode(256), nullable=False)
     link = db.Column(db.String(64), nullable=False)
     description = db.Column(db.UnicodeText)
     votes = db.Column(db.Integer, nullable=False, default=1)
