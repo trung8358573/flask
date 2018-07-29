@@ -2,7 +2,18 @@
     background-color: #343494;
 }
 
-.row {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.flex-column {
+    float: left;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    top: initial; /* Stay at the top */
+
+}
+
+.navbar a {
+    color:white;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
 }

@@ -36,3 +36,13 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
 
+class Channel(db.Model):
+    __tablename__ = 'channels'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Unicode(24), nullable=False)
+    description = db.Column(db.UnicodeText)
+    post_ids = db.relationship('Post', backref='channel', lazy=True)
+
+    def __repr__(self):
+        return f"Channel('{self.title}')"
+
