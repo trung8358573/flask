@@ -16,7 +16,7 @@ if 'liveconsole' in gethostname():
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flask:flask@localhost/flask_db'
 
-app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SECRET_KEY'] = '86ae4018794e5f12f7ed6d5069393aed'
 db = SQLAlchemy(app)
 
 from base import views

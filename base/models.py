@@ -11,7 +11,7 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
     password_hash = db.Column(db.String(128))
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    post_ids = db.relationship('Post')
+    post_ids = db.relationship('Post', backref='author', lazy=True)
 
     def password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -26,12 +26,12 @@ class User(db.Model):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode(256), nullable=False)
-    link = db.Column(db.String(64), nullable=False)
+    title = db.Column(db.Unicode(128), nullable=False)
+    link = db.Column(db.String(256), nullable=False)
     description = db.Column(db.UnicodeText)
     votes = db.Column(db.Integer, nullable=False, default=1)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
