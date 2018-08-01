@@ -3,10 +3,20 @@
 }
 
 .flex-column {
+    right:0;
     float: left;
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    position: absolute; /* Fixed Sidebar (stay in place on scroll) */
     top: initial; /* Stay at the top */
 
+}
+
+#navbar{
+    height:40px;
+}
+
+#channel {
+    position:fixed;
+    top:initial;
 }
 
 .navbar a {
