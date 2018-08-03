@@ -1,3 +1,7 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .theme {
     background-color: #343494;
 }
@@ -23,7 +27,11 @@
     color:white;
 }
 
-img {
+#navbar img {
     width: 100%;
     object-fit: cover;
+}
+
+#feed img {
+    width: 100%;
 }

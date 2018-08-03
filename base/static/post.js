@@ -42,6 +42,58 @@ var post_form = new Vue({
 
 });
 
+var signup_form = new Vue({
+    el: '#signup_modal',
+    data: {
+        username: '',
+        password: '',
+        password_confirm: '',
+        email: '',
+        invalid: {
+            username: false,
+            password: false,
+            password_confirm: false,
+            email: false
+        }
+    },
+    methods: {
+        validate: function () {
+            if (this.username && this.password && this.password_confirm == this.password && this.email) {
+                return true;
+            } else {
+                if (!this.username) {
+                    this.invalid.username = true;
+                }
+                if (!this.password) {
+                    this.invalid.password = true;
+                }
+                if (!this.password_confirm) {
+                    this.invalid.password_confirm = true;
+                }
+                if (!this.email) {
+                    this.invalid.email = true;
+                }
+                if (this.password_confirm != this.password) {
+                    this.invalid.password = true;
+                    this.invalid.password_confirm = true;
+                }
+                return false;
+            }
+        },
+        send: function () {
+            if (this.validate()) {
+                $.post('/post', {
+                        username: this.username,
+                        password: this.password,
+                        email: this.email
+                    },
+                    function (data, status) {}
+                );
+            }
+        }
+    }
+});
+
 var feed = new Vue({
     el: '#feed',
     data: {
@@ -53,13 +105,13 @@ var feed = new Vue({
                 user_pic: '',
             },
             channel: 'memes',
-            vote:'',
-            time:'',
+            vote: '',
+            time: '',
             description: ''
         }]
     },
     methods: {
-        load_more: function(){
+        load_more: function () {
             this.posts.push({
                 title: 'LPT: How to Wake Up in the Morning',
                 url: '../static/post2.jpg',
@@ -68,8 +120,8 @@ var feed = new Vue({
                     user_pic: '',
                 },
                 channel: 'memes',
-                vote:'',
-                time:'',
+                vote: '',
+                time: '',
                 description: ''
             });
         }

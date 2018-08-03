@@ -15,6 +15,14 @@ def register():
 
 @app.route('/post', methods=['POST'])
 def post():
+    vals = dict(request.form)
+    for key, val in vals.items():
+        vals[key] = val[0]
+
+    return render_template('index.html')
+
+@app.route('/get', methods=['POST'])
+def get():
     r = request
     print(request.form)
     print(request.values)
