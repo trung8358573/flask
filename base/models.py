@@ -10,7 +10,7 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, index=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
     password_hash = db.Column(db.String(128))
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    pic = db.Column(db.String(20), nullable=False, default='default.jpg')
     post_ids = db.relationship('Post', backref='author', lazy=True)
 
     def password(self, password):
@@ -67,6 +67,7 @@ class Channel(db.Model):
     description = db.Column(db.UnicodeText)
     post_ids = db.relationship('Post', backref='channel', lazy=True)
     admin_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    pic = db.Column(db.String(20), nullable=False, default='default.jpg')
 
     def __repr__(self):
         return f"Channel('{self.title}')"

@@ -1,3 +1,8 @@
+function validate_email(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
 var post_form = new Vue({
     el: '#post_form',
     data: {
@@ -54,12 +59,34 @@ var signup_form = new Vue({
             password: false,
             password_confirm: false,
             email: false
+        },
+        validation_msg: {
+            username: '',
+            password: '',
+            password_confirm: '',
+            email: ''
         }
     },
     methods: {
         validate: function () {
             if (this.username && this.password && this.password_confirm == this.password && this.email) {
-                return true;
+                if (this.username.length < 6 | this.username.length > 20) {
+                    this.invalid.username = true;
+                    this.validation_msg.username = 'Username has to be at least 6 characters and no longer than 20 characters';
+                }
+                if (this.password.length < 6 | this.password.length > 20) {
+                    this.invalid.password = true;
+                    this.validation_msg.password = 'Password has to be at least 6 characters and no longer than 20 characters';
+                }
+                if (validate_email(this.email)) {
+                    this.invalid.email = true;
+                    this.validation_msg.email = 'Please provide a valid email';
+                }
+                if (!this.invalid.email && !this.invalid.username && !this.invalid.password) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 if (!this.username) {
                     this.invalid.username = true;
@@ -76,6 +103,7 @@ var signup_form = new Vue({
                 if (this.password_confirm != this.password) {
                     this.invalid.password = true;
                     this.invalid.password_confirm = true;
+                    this.validation_msg.password = 'Password does not match';
                 }
                 return false;
             }
@@ -85,11 +113,19 @@ var signup_form = new Vue({
                 $.post('/post', {
                         username: this.username,
                         password: this.password,
-                        email: this.email
+                        email: this.password_confirm
                     },
-                    function (data, status) {}
+                    function (data, status) {
+                        response = $.parseJSON(data);
+                    }
                 );
             }
+        },
+        clear: function () {
+            this.invalid.username = false;
+            this.invalid.password = false;
+            this.invalid.password_confirm = false;
+            this.invalid.email = false;
         }
     }
 });
@@ -102,10 +138,13 @@ var feed = new Vue({
             url: '../static/post2.jpg',
             user: {
                 name: 'tim tran',
-                user_pic: '',
+                pic: '../static/user.jpg',
             },
-            channel: 'memes',
-            vote: '',
+            channel:{
+                name: 'memes',
+                pic: '../static/channel.png'
+            },
+            vote: 100,
             time: '',
             description: ''
         }]
@@ -117,10 +156,13 @@ var feed = new Vue({
                 url: '../static/post2.jpg',
                 user: {
                     name: 'tim tran',
-                    user_pic: '',
+                    pic: '../static/user.jpg',
                 },
-                channel: 'memes',
-                vote: '',
+                channel:{
+                    name: 'memes',
+                    pic: '../static/channel.png'
+                },
+                vote: 100,
                 time: '',
                 description: ''
             });
@@ -134,12 +176,12 @@ var sidebar = new Vue({
         channels: [{
                 title: 'Funny',
                 url: '#',
-                pic: '',
+                pic: '../static/channel.png',
             },
             {
                 title: 'Animals',
                 url: '#',
-                pic: '',
+                pic: '../static/channel.png',
             },
         ]
     },
