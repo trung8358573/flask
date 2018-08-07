@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../static/bootstrap.css">
-    <link rel="stylesheet" href="../static/theme.css">
+    <link id='style' rel="stylesheet" href="../static/theme.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
     <title>{% block title %}Flask{% endblock %}</title>
@@ -32,10 +32,10 @@
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style='height: 30px;'>
                             <div class="navbar-nav">
                                 <a class="nav-item nav-link" href="post_modal" data-toggle="modal" data-target="#post_modal">Post</a>
-                                <a class="nav-item nav-link" href="post_modal" data-toggle="modal" data-target="#signup_modal">Sign In</a>
+                                <a class="nav-item nav-link mr-5" href="post_modal" data-toggle="modal" data-target="#signup_modal">Sign In</a>
                                 <i class="fa fa-sun mt-2 p-1 ml-5" style="color:white;"></i>
                                 <label class="switch mt-2">                                    
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" onchange="dark()"/>
                                     <span class="slider round"></span>
                                 </label>
                                 <i class="fa fa-moon mt-2 p-1" style="color:white;"></i>

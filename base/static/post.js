@@ -140,7 +140,7 @@ var feed = new Vue({
                 name: 'tim tran',
                 pic: '../static/user.jpg',
             },
-            channel:{
+            channel: {
                 name: 'memes',
                 pic: '../static/channel.png'
             },
@@ -158,7 +158,7 @@ var feed = new Vue({
                     name: 'tim tran',
                     pic: '../static/user.jpg',
                 },
-                channel:{
+                channel: {
                     name: 'memes',
                     pic: '../static/channel.png'
                 },
@@ -187,3 +187,14 @@ var sidebar = new Vue({
     },
     methods: {}
 });
+
+function dark() {
+    var style = $('#style')
+    if(style.href == '../static/theme.css'){
+        style.attr("href", '../static/dark.css');
+    }
+    else{
+        style.attr("href", '../static/theme.css');
+    }
+    
+}
