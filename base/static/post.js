@@ -3,6 +3,14 @@ function validate_email(email) {
     return re.test(String(email).toLowerCase());
 }
 
+var head = new Vue({
+    el: 'head',
+    data: {
+        dark: false
+    },
+    methods: {}
+});
+
 var post_form = new Vue({
     el: '#post_form',
     data: {
@@ -189,12 +197,20 @@ var sidebar = new Vue({
 });
 
 function dark() {
-    var style = $('#style')
-    if(style.href == '../static/theme.css'){
+    var style = $('#style');
+    if(style.attr("href") == '../static/theme.css'){
         style.attr("href", '../static/dark.css');
+        $('body').removeClass('bg-light');
+        $('#feed .card').addClass('border-dark');
+        $('#left_col .card').addClass('border-dark');
+        $('#top_bar').addClass('border-bottom border-dark');
     }
     else{
         style.attr("href", '../static/theme.css');
+        $('body').addClass('bg-light');
+        $('#feed .card').removeClass('border-dark');
+        $('#left_col .card').removeClass('border-dark');
+        $('#top_bar').removeClass('border-bottom border-dark');
     }
     
 }

@@ -1,0 +1,33 @@
+body {
+    background-color: #151112;
+}
+
+.theme {
+    background-color: #232323;
+}
+
+#sidebar {
+    color: white;
+    background-color: #232323;
+}
+
+#sidebar a {
+    color: white;
+}
+
+.card-header {
+    color: white;
+    background-color: #232323;
+}
+.card-header a {
+    color: white;
+    text-decoration: underline;
+}
+
+.card-footer {
+    color: white;
+    background-color: #232323;
+}
+.card-footer a {
+    color: white;
+}

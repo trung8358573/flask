@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../static/bootstrap.css">
     <link id='style' rel="stylesheet" href="../static/theme.css">
+    <link id='style' rel="stylesheet" href="../static/top_bar.css">
+    <link id='style' rel="stylesheet" href="../static/side_bar.css">
+    <link id='style' rel="stylesheet" href="../static/feed.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
     <title>{% block title %}Flask{% endblock %}</title>
@@ -16,39 +19,41 @@
 <body class='bg-light'>
     {% block body %}
     <header>
-        <div class="container-fluid text-center" style='background-color: #343494;top:0;position: fixed;z-index: 2;font-size: 14px'>
+        <div id='top_bar' class="container-fluid text-center theme" style='top:0;position: fixed;z-index: 2;font-size: 14px'>
             <div class="row">
                 <div class="col-xs-0 col-sm-2 col-md-4 col-lg-3 d-none d-sm-block">
                 </div>
-                <div class="col-xs-12 col-sm-8 col-md-5 col-lg-6" style='height: 40px;background-color: #343494;'>
+                <div class="col-xs-12 col-sm-8 col-md-5 col-lg-6 theme" style='height: 40px;'>
                     <nav class="navbar navbar-expand-lg navbar-dark" style='height: 40px;'>
                         <a class="navbar-brand" href="#">
                             <img src="../static/brand.png" class="rounded-circle" width="34" height="34">
                         </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-expanded="false"
+                            aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style='height: 30px;'>
-                            <div class="navbar-nav">
-                                <a class="nav-item nav-link" href="post_modal" data-toggle="modal" data-target="#post_modal">Post</a>
-                                <a class="nav-item nav-link mr-5" href="post_modal" data-toggle="modal" data-target="#signup_modal">Sign In</a>
-                                <i class="fa fa-sun mt-2 p-1 ml-5" style="color:white;"></i>
-                                <label class="switch mt-2">                                    
-                                    <input type="checkbox" onchange="dark()"/>
-                                    <span class="slider round"></span>
-                                </label>
-                                <i class="fa fa-moon mt-2 p-1" style="color:white;"></i>
+                        <div id='topbar_mid_col' class="collapse navbar-collapse" id="navbarNavAltMarkup" style='height: 30px;'>
+                            <div id='topbar_mid' class="navbar-nav">
+                                <div id='button_group'>
+                                    <a class="nav-item nav-link" href="post_modal" data-toggle="modal" data-target="#post_modal">Hot</a>
+                                    <a class="nav-item nav-link" href="post_modal" data-toggle="modal" data-target="#signup_modal">New</a>
+                                </div>
+                                <div id='dark_group'>
+                                    <i class="fa fa-sun" style="color:white;"></i>
+                                    <label class="switch m-0">
+                                        <input type="checkbox" onchange="dark()" />
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <i class="fa fa-moon" style="color:white;"></i>
+                                </div>
                             </div>
                         </div>
                     </nav>
                 </div>
-                <div class="col-xs-0 col-sm-2 col-md-3 col-lg-3 d-none d-sm-block">
-                    <div class="media">
-                        <img class="rounded-circle mr-2 mt-2 border" src="../static/user.jpg" alt="Generic placeholder image" style="width: 22px;height:22px;">
-                        <div class="mt-2">
-                            <a href="#" style="color:white;">tim tran</a>
-                        </div>
+                <div id=topbar_right_col'' class="col-xs-0 col-sm-2 col-md-3 col-lg-3 d-none d-sm-block p-0">
+                    <div id="user_info" class="p-2">
+                        <img class="rounded-circle border" src="../static/user.jpg" alt="Generic placeholder image" style="width: 22px;height:22px;">
+                        <a href="#" class="ml-2" style="color:white;">tim tran</a>
                     </div>
                 </div>
             </div>
@@ -57,13 +62,13 @@
 
     <div class="row mt-5 mb-3">
         <div class="col-xs-0 col-sm-2 col-md-4 col-lg-3 d-none d-sm-block mt-3 p-0">
-            <div id='sidebar' class="card ml-5" style="position: fixed;">
-                <div class="card-body">
-                    <h5>Kênh</h5>
-                    <div class="media" v-for='channel in channels'>
-                        <img class="rounded-circle mr-2 mt-2 border" :src="channel.pic" alt="Generic placeholder image" style="width: 21px;height:21px;">
-                        <div class="mt-2">
-                            <a class="nav-link p-0 m-0" :href="channel.url">{% raw %}{{channel.title}}{% endraw %}</a>
+            <div id='left_col'>
+                <div id='sidebar' class="card">
+                    <div class="card-body">
+                        <h5>Kênh</h5>
+                        <div class='channel' v-for='channel in channels'>
+                            <img class="rounded-circle border" :src="channel.pic" alt="Generic placeholder image" style="width: 21px;height:21px;">
+                            <a class="nav-link p-1" :href="channel.url">{% raw %}{{channel.title}}{% endraw %}</a>
                         </div>
                     </div>
                 </div>
@@ -72,7 +77,7 @@
         <div id='feed' class="col-xs-12 col-sm-8 col-md-5 col-lg-6" v-infinite-scroll="load_more" infinite-scroll-disabled="busy"
             infinite-scroll-distance="10">
             <div class="card mt-3 mb-3" v-for='(post, index) in posts'>
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h3>
                         {% raw %}{{post.title}}{% endraw %}
                     </h3>
@@ -87,10 +92,10 @@
                         </div>
                     </small>
                 </div>
-                <div class="card-body text-center p-0 bg-white">
+                <div class="card-body text-center p-0">
                     <img :src="post.url">
                 </div>
-                <div class="card-footer text-muted bg-white">
+                <div class="card-footer text-muted">
                     <ul class="nav nav-pills nav-fill ">
                         <li class="nav-item">
                             <a class="nav-link" href="#">Like</a>
@@ -193,6 +198,8 @@
     <script type="text/javascript" src="../static/bootstrap.bundle.js"></script>
     <script type="text/javascript" src="../static/vue.js"></script>
     <script type="text/javascript" src="../static/vue-infinite-scroll.js"></script>
+    <script type="text/javascript" src="../static/hammer.min.js"></script>
+    <script type="text/javascript" src="../static/moment.min.js"></script>
     <script type="text/javascript" src="../static/post.js"></script>
     {% endblock %}
 </body>

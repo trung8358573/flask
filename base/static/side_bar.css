@@ -1,0 +1,16 @@
+#left_col{
+  display: flex;
+  justify-content: flex-end;  
+}
+
+#left_col .card{
+  display: flex;
+  flex-basis: 79%;
+  position: fixed;
+}
+
+#left_col .channel{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
