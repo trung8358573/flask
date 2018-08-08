@@ -174,6 +174,13 @@ var feed = new Vue({
                 time: '',
                 description: ''
             });
+        },
+        check_dark: function () {
+            if ($('#dark_switch').is(":checked")) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 });
@@ -198,19 +205,18 @@ var sidebar = new Vue({
 
 function dark() {
     var style = $('#style');
-    if(style.attr("href") == '../static/theme.css'){
+    if (style.attr("href") == '../static/theme.css') {
         style.attr("href", '../static/dark.css');
         $('body').removeClass('bg-light');
         $('#feed .card').addClass('border-dark');
         $('#left_col .card').addClass('border-dark');
         $('#top_bar').addClass('border-bottom border-dark');
-    }
-    else{
+    } else {
         style.attr("href", '../static/theme.css');
         $('body').addClass('bg-light');
         $('#feed .card').removeClass('border-dark');
         $('#left_col .card').removeClass('border-dark');
         $('#top_bar').removeClass('border-bottom border-dark');
     }
-    
+
 }

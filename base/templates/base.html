@@ -41,7 +41,7 @@
                                 <div id='dark_group'>
                                     <i class="fa fa-sun" style="color:white;"></i>
                                     <label class="switch m-0">
-                                        <input type="checkbox" onchange="dark()" />
+                                        <input id='dark_switch' type="checkbox" onchange="dark()" />
                                         <span class="slider round"></span>
                                     </label>
                                     <i class="fa fa-moon" style="color:white;"></i>
@@ -76,7 +76,7 @@
         </div>
         <div id='feed' class="col-xs-12 col-sm-8 col-md-5 col-lg-6" v-infinite-scroll="load_more" infinite-scroll-disabled="busy"
             infinite-scroll-distance="10">
-            <div class="card mt-3 mb-3" v-for='(post, index) in posts'>
+            <div class="card mt-3 mb-3" :class="{'border-dark': check_dark()}" v-for='(post, index) in posts'>
                 <div class="card-header">
                     <h3>
                         {% raw %}{{post.title}}{% endraw %}
