@@ -3,14 +3,6 @@ function validate_email(email) {
     return re.test(String(email).toLowerCase());
 }
 
-var head = new Vue({
-    el: 'head',
-    data: {
-        dark: false
-    },
-    methods: {}
-});
-
 var post_form = new Vue({
     el: '#post_form',
     data: {
@@ -73,7 +65,11 @@ var signup_form = new Vue({
             password: '',
             password_confirm: '',
             email: ''
-        }
+        },
+        loading: false,
+        alert_failed: false,
+        alert_success: false,
+        alert_msg: ''
     },
     methods: {
         validate: function () {
@@ -86,7 +82,7 @@ var signup_form = new Vue({
                     this.invalid.password = true;
                     this.validation_msg.password = 'Password has to be at least 6 characters and no longer than 20 characters';
                 }
-                if (validate_email(this.email)) {
+                if (!validate_email(this.email)) {
                     this.invalid.email = true;
                     this.validation_msg.email = 'Please provide a valid email';
                 }
@@ -118,13 +114,26 @@ var signup_form = new Vue({
         },
         send: function () {
             if (this.validate()) {
+                this.loading = true;
+                this.alert_failed = false;
+                this.alert_success = false;    
                 $.post('/post', {
                         username: this.username,
                         password: this.password,
-                        email: this.password_confirm
+                        email: this.email
                     },
                     function (data, status) {
-                        response = $.parseJSON(data);
+                        response = $.parseJSON(data);                      
+                        if(response.status == 'success'){
+                            signup_form.alert_success = true;
+                            signup_form.alert_msg = response.msg;
+                            signup_form.loading = false;
+                        } else {
+                            signup_form.alert_failed = true;
+                            signup_form.alert_msg = 'failed';
+                            signup_form.alert_msg = response.msg;
+                            signup_form.loading = false;
+                        }
                     }
                 );
             }
@@ -153,7 +162,7 @@ var feed = new Vue({
                 pic: '../static/channel.png'
             },
             vote: 100,
-            time: '',
+            time: '2018-08-13 00:55:05.828713',
             description: ''
         }]
     },
@@ -171,7 +180,7 @@ var feed = new Vue({
                     pic: '../static/channel.png'
                 },
                 vote: 100,
-                time: '',
+                time: '2018-08-13 00:55:05.828713',
                 description: ''
             });
         },
@@ -181,6 +190,9 @@ var feed = new Vue({
             } else {
                 return false;
             }
+        },
+        time: function(post) {
+            return moment(post.time).fromNow();
         }
     }
 });

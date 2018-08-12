@@ -84,6 +84,7 @@
                                 <a href="#">{% raw %}{{post.user.name}}{% endraw %}</a> gửi vào kênh
                                 <img class="rounded-circle border" :src="post.channel.pic" alt="Generic placeholder image" style="width: 22px;height:22px;">
                                 <a href="#">{% raw %}{{post.channel.name}}{% endraw %}</a>
+                                <span href="#">{% raw %}{{time(post)}}{% endraw %}</span>
                             </div>
                         </div>
                     </small>
@@ -141,8 +142,17 @@
                                 @focusout='invalid.password_confirm = false'>
                             <div v-if='validation_msg.password_confirm' class='invalid-feedback'>{% raw %}{{validation_msg.password_confirm}}{% endraw %}</div>
                         </div>
+                        <div v-if='alert_failed' class="alert alert-danger mt-3" role="alert">
+                            {% raw %}{{alert_msg}}{% endraw %}
+                        </div>
+                        <div v-if='alert_success' class="alert alert-success mt-3" role="alert">
+                            {% raw %}{{alert_msg}}{% endraw %}
+                        </div>
                         <div class="mt-3">
-                            <button id="send_signup" type="button" class="btn btn-primary btn-block theme" @click='send'>Sign Up</button>
+                            <button id="send_signup" type="button" class="btn btn-primary btn-block theme" :disabled='loading' @click='send'>Sign Up
+                                <i v-if='loading' class="fas fa-circle-notch fa-spin"></i>
+                                </i>
+                            </button>
                             <button type="button" class="btn btn-block" data-dismiss="modal">Close</button>
                         </div>
 
@@ -192,10 +202,10 @@
 
     <script type="text/javascript" src="../static/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../static/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="../static/moment.min.js"></script>
     <script type="text/javascript" src="../static/vue.js"></script>
     <script type="text/javascript" src="../static/vue-infinite-scroll.js"></script>
-    <script type="text/javascript" src="../static/hammer.min.js"></script>
-    <script type="text/javascript" src="../static/moment.min.js"></script>
+    <script type="text/javascript" src="../static/hammer.min.js"></script>    
     <script type="text/javascript" src="../static/post.js"></script>
     {% endblock %}
 </body>

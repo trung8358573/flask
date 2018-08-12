@@ -3,6 +3,7 @@ from base import app, db
 from base.forms import PostForm, RegisterForm, LoginForm
 from base.models import User, Post
 import json
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @app.route('/')
@@ -25,7 +26,7 @@ def post():
 
     email = vals.get('email'),
     username = vals.get('username'),
-    password = vals.get('password')
+    password = generate_password_hash(vals.get('password'))
     print(vals)
 
     user_db = User.query.filter_by(username=username).first()
@@ -39,13 +40,13 @@ def post():
         )
         db.session.add(user)
         db.session.commit()
-        return json.dumps({'status':'success'})
+        return json.dumps({'status':'success','msg':'Sign up successful!'})
     else:
-        response = {'status':'failed','except':[]}
+        response = {'status':'failed','msg':''}
         if user_db:
-            response['except'].append('username')
+            response['msg'] += 'This username already exist. '
         if email_db:
-            response['except'].append('email')
+            response['msg'] += 'This email already exist. '
         return json.dumps(response)
 
 

@@ -31,3 +31,8 @@ body {
 .card-footer a {
     color: white;
 }
+
+.modal-header, .modal-body , .modal-footer  {
+    color: white;
+    background-color: gray;
+}
