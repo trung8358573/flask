@@ -44,9 +44,9 @@ def post():
     else:
         response = {'status':'failed','msg':''}
         if user_db:
-            response['msg'] += 'This username already exist. '
+            response['msg'] += 'This username already exists. '
         if email_db:
-            response['msg'] += 'This email already exist. '
+            response['msg'] += 'This email already exists. '
         return json.dumps(response)
 
 
