@@ -12,14 +12,39 @@ def front_page():
     return render_template('index.html')
 
 
-@app.route('/register')
-def register():
-    form = RegisterForm()
-    return render_template('register.html', title='Register', form=form)
+@app.route('/login', methods=['POST'])
+def login():
+    vals = dict(request.form)
+    username = vals.get('username')
+    password = vals.get('password')
+
+    user = User.query.filter_by(username=username).first()
+    if user and check_password_hash(user.password, password):
+        print('aaaaaaaaaaaaaa')
 
 
 @app.route('/post', methods=['POST'])
 def post():
+    vals = dict(request.form)
+    for key, val in vals.items():
+        vals[key] = val[0]
+
+    title = vals.get('title'),
+    url = vals.get('url'),
+    description = vals.get('description')
+
+    post = Post(
+        title=title,
+        url=url,
+        description=description
+    )
+    db.session.add(post)
+    db.session.commit()
+    return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
     vals = dict(request.form)
     for key, val in vals.items():
         vals[key] = val[0]
@@ -40,9 +65,9 @@ def post():
         )
         db.session.add(user)
         db.session.commit()
-        return json.dumps({'status':'success','msg':'Sign up successful!'})
+        return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
     else:
-        response = {'status':'failed','msg':''}
+        response = {'status': 'failed', 'msg': ''}
         if user_db:
             response['msg'] += 'This username already exists. '
         if email_db:

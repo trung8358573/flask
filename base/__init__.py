@@ -1,6 +1,7 @@
 from flask import Flask as F
 from flask_sqlalchemy import SQLAlchemy
 from socket import gethostname
+from flask_login import LoginManager
 
 app = F(__name__)
 
@@ -18,5 +19,6 @@ else:
 
 app.config['SECRET_KEY'] = '86ae4018794e5f12f7ed6d5069393aed'
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
 from base import views

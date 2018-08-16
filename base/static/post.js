@@ -37,7 +37,17 @@ var post_form = new Vue({
                     description: this.description
                 },
                 function (data, status) {
-
+                    response = $.parseJSON(data);
+                    if (response.status == 'success') {
+                        signup_form.alert_success = true;
+                        signup_form.alert_msg = response.msg;
+                        signup_form.loading = false;
+                    } else {
+                        signup_form.alert_failed = true;
+                        signup_form.alert_msg = 'failed';
+                        signup_form.alert_msg = response.msg;
+                        signup_form.loading = false;
+                    }
                 }
             )
 
@@ -116,15 +126,15 @@ var signup_form = new Vue({
             if (this.validate()) {
                 this.loading = true;
                 this.alert_failed = false;
-                this.alert_success = false;    
-                $.post('/post', {
+                this.alert_success = false;
+                $.post('/signup', {
                         username: this.username,
                         password: this.password,
                         email: this.email
                     },
                     function (data, status) {
-                        response = $.parseJSON(data);                      
-                        if(response.status == 'success'){
+                        response = $.parseJSON(data);
+                        if (response.status == 'success') {
                             signup_form.alert_success = true;
                             signup_form.alert_msg = response.msg;
                             signup_form.loading = false;
@@ -191,7 +201,7 @@ var feed = new Vue({
                 return false;
             }
         },
-        time: function(post) {
+        time: function (post) {
             return moment(post.time).fromNow();
         }
     }
