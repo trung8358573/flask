@@ -64,17 +64,23 @@ var signup_form = new Vue({
         password: '',
         password_confirm: '',
         email: '',
+        username_login: '',
+        password_login: '',
         invalid: {
             username: false,
             password: false,
             password_confirm: false,
-            email: false
+            email: false,
+            username_login: false,
+            password_login: false
         },
         validation_msg: {
             username: '',
             password: '',
             password_confirm: '',
-            email: ''
+            email: '',
+            username_login: '',
+            password_login: ''
         },
         loading: false,
         alert_failed: false,
@@ -82,6 +88,11 @@ var signup_form = new Vue({
         alert_msg: ''
     },
     methods: {
+        clear_alerts: function () {
+            this.alert_failed = false;
+            this.alert_success = false;
+            this.alert_msg = '';
+        },
         validate: function () {
             if (this.username && this.password && this.password_confirm == this.password && this.email) {
                 if (this.username.length < 6 | this.username.length > 20) {
@@ -122,11 +133,35 @@ var signup_form = new Vue({
                 return false;
             }
         },
+        validate_login: function () {
+            if (this.username_login && this.password_login) {
+                if (this.username_login.length < 6 | this.username_login.length > 20) {
+                    this.invalid.username_login = true;
+                    this.validation_msg.username_login = 'Username has to be at least 6 characters and no longer than 20 characters';
+                }
+                if (this.password_login.length < 6 | this.password_login.length > 20) {
+                    this.invalid.password_login = true;
+                    this.validation_msg.password_login = 'Password has to be at least 6 characters and no longer than 20 characters';
+                }
+                if (!this.invalid.username_login && !this.invalid.password_login) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (!this.username) {
+                    this.invalid.username_login = true;
+                }
+                if (!this.password) {
+                    this.invalid.password_login = true;
+                }
+                return false;
+            }
+        },
         send: function () {
             if (this.validate()) {
                 this.loading = true;
-                this.alert_failed = false;
-                this.alert_success = false;
+                this.clear_alerts();
                 $.post('/signup', {
                         username: this.username,
                         password: this.password,
@@ -145,6 +180,31 @@ var signup_form = new Vue({
                             signup_form.loading = false;
                         }
                     }
+                );
+            }
+        },
+        send_login: function () {
+            if (this.validate_login()) {
+                this.loading = true;
+                this.clear_alerts();
+                $.post('/login', {
+                        username: this.username_login,
+                        password: this.password_login,
+                    }
+                    // ,
+                    // function (data, status) {
+                    //     response = $.parseJSON(data);
+                    //     if (response.status == 'success') {
+                    //         signup_form.alert_success = true;
+                    //         signup_form.alert_msg = response.msg;
+                    //         signup_form.loading = false;
+                    //     } else {
+                    //         signup_form.alert_failed = true;
+                    //         signup_form.alert_msg = 'failed';
+                    //         signup_form.alert_msg = response.msg;
+                    //         signup_form.loading = false;
+                        // }
+                    // }
                 );
             }
         },

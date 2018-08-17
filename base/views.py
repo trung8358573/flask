@@ -17,6 +17,7 @@ def login():
     vals = dict(request.form)
     username = vals.get('username')
     password = vals.get('password')
+    print(username, password)
 
     user = User.query.filter_by(username=username).first()
     if user and check_password_hash(user.password, password):
