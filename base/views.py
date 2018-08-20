@@ -8,20 +8,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 @app.route('/')
 def front_page():
-    r = request
     return render_template('index.html')
 
 
 @app.route('/login', methods=['POST'])
 def login():
     vals = dict(request.form)
-    username = vals.get('username')
-    password = vals.get('password')
-    print(username, password)
+    username = vals.get('username')[0]
+    password = vals.get('password')[0]
 
-    user = User.query.filter_by(username=username).first()
-    if user and check_password_hash(user.password, password):
-        print('aaaaaaaaaaaaaa')
+    user_db = User.query.filter_by(username=username).first()
+    if user_db and check_password_hash(user_db.password, password):
+        print('yessssss')
+    return 'aaaaaaaaaaaaaa'
 
 
 @app.route('/post', methods=['POST'])
@@ -50,9 +49,8 @@ def signup():
     for key, val in vals.items():
         vals[key] = val[0]
 
-    email = vals.get('email'),
-    username = vals.get('username'),
-    password = generate_password_hash(vals.get('password'))
+    email = vals.get('email')
+    username = vals.get('username') 
     print(vals)
 
     user_db = User.query.filter_by(username=username).first()
@@ -62,7 +60,7 @@ def signup():
         user = User(
             email=email,
             username=username,
-            password=password
+            password=generate_password_hash(vals.get('password'))
         )
         db.session.add(user)
         db.session.commit()

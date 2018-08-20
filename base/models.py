@@ -13,15 +13,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True, nullable=False)
     username = db.Column(db.String(64), unique=True, index=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    # password_hash = db.Column(db.String(128))
     pic = db.Column(db.String(20), nullable=False, default='default.jpg')
     post_ids = db.relationship('Post', backref='author', lazy=True)
-
-    # def password(self, password):
-    #     self.password_hash = generate_password_hash(password)
-    #
-    # def verify_password(self, password):
-    #     return check_password_hash(self.password_hash, password)
 
     def create_post(self, vals):
         post = Post(
