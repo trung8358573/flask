@@ -1,9 +1,10 @@
 from flask import request, render_template
 from base import app, db
-from base.forms import PostForm, RegisterForm, LoginForm
+from base.forms import RegisterForm
 from base.models import User, Post
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, current_user, logout_user
 
 
 @app.route('/')
@@ -19,8 +20,13 @@ def login():
 
     user_db = User.query.filter_by(username=username).first()
     if user_db and check_password_hash(user_db.password, password):
+        login_user(user_db, remember=True)
         print('yessssss')
     return 'aaaaaaaaaaaaaa'
+
+@app.route('/logout')
+def logout():
+    logout_user()
 
 
 @app.route('/post', methods=['POST'])

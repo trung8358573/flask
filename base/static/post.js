@@ -50,11 +50,8 @@ var post_form = new Vue({
                     }
                 }
             )
-
         }
-
     }
-
 });
 
 var signup_form = new Vue({
@@ -287,7 +284,7 @@ var sidebar = new Vue({
 
 function dark() {
     var style = $('#style');
-    if (style.attr("href") == '../static/theme.css') {
+    if (style.attr("href") === '../static/theme.css') {
         style.attr("href", '../static/dark.css');
         $('body').removeClass('bg-light');
         $('#feed .card').addClass('border-dark');
