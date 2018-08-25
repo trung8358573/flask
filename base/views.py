@@ -5,6 +5,7 @@ from base.models import User, Post
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user
+from flask import redirect
 
 
 @app.route('/')
@@ -21,12 +22,14 @@ def login():
     user_db = User.query.filter_by(username=username).first()
     if user_db and check_password_hash(user_db.password, password):
         login_user(user_db, remember=True)
-        print('yessssss')
-    return 'aaaaaaaaaaaaaa'
+        return json.dumps({'status': 'success'})
+    else:
+        return json.dumps({'status': 'failed'})
 
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect("/")
 
 
 @app.route('/post', methods=['POST'])
@@ -56,8 +59,7 @@ def signup():
         vals[key] = val[0]
 
     email = vals.get('email')
-    username = vals.get('username') 
-    print(vals)
+    username = vals.get('username')
 
     user_db = User.query.filter_by(username=username).first()
     email_db = User.query.filter_by(email=email).first()

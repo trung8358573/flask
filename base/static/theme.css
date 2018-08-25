@@ -13,3 +13,7 @@ body {
 .card-footer {
     background-color: white;
 }
+
+.card-footer a {
+    color: #83878A;
+}

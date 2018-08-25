@@ -187,21 +187,21 @@ var signup_form = new Vue({
                 $.post('/login', {
                         username: this.username_login,
                         password: this.password_login,
+                    },
+                    function (data, status) {
+                        response = $.parseJSON(data);
+                        if (response.status == 'success') {
+                            signup_form.alert_success = true;
+                            signup_form.alert_msg = 'Login successful!';
+                            signup_form.loading = false;
+                            location.reload();
+                        } else {
+                            signup_form.alert_failed = true;
+                            signup_form.alert_msg = 'failed';
+                            signup_form.alert_msg = 'Login unsuccessful, please check your username and password';
+                            signup_form.loading = false;
+                        }
                     }
-                    // ,
-                    // function (data, status) {
-                    //     response = $.parseJSON(data);
-                    //     if (response.status == 'success') {
-                    //         signup_form.alert_success = true;
-                    //         signup_form.alert_msg = response.msg;
-                    //         signup_form.loading = false;
-                    //     } else {
-                    //         signup_form.alert_failed = true;
-                    //         signup_form.alert_msg = 'failed';
-                    //         signup_form.alert_msg = response.msg;
-                    //         signup_form.loading = false;
-                        // }
-                    // }
                 );
             }
         },
