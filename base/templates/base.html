@@ -42,7 +42,7 @@
                         <a class="nav-item nav-link" href="#" style="color: white;"><i
                                 class="fa fa-fire fa-md p-1"></i>Hot</a>
                         <a class="nav-item nav-link" href="#" style="color: white;"><i
-                                class="fa fa-star-of-life fa-md p-1"></i>New</a>
+                                class="fa fa-star-of-life fa-md p-1"></i>Mới</a>
                     </div>
                     <div id='dark_group' class="d-flex align-items-center">
                         <i class="fa fa-sun p-1" style="color:white;"></i>
@@ -65,7 +65,7 @@
                     {% if current_user.is_authenticated %}
                     {% else %}
                     <a class="nav-link" href="post_modal" style="color: white;" data-toggle="modal"
-                       data-target="#signup_modal"><i class="fa fa-user-circle fa-md p-1"></i>Login</a>
+                       data-target="#signup_modal"><i class="fa fa-user-circle fa-md p-1"></i>Đăng nhập</a>
                     {% endif %}
                     {% if current_user.is_authenticated %}
                     <img class="rounded-circle" src="../static/user.jpg" alt="Generic placeholder image"
@@ -75,8 +75,8 @@
                             tim tran
                         </a>
                         <div class="dropdown-menu">
-                            <a class="nav-item nav-link" href="#">My Account</a>
-                            <a class="nav-item nav-link" href="/logout">Logout</a>
+                            <a class="nav-item nav-link" href="#">Tài khoản</a>
+                            <a class="nav-item nav-link" href="/logout">Đăng xuất</a>
                         </div>
                     </div>
                     {% endif %}
@@ -134,25 +134,30 @@
             <div class="card-body text-center p-0">
                 <img :src="post.url">
             </div>
-            <div class="card-footer p-3">
+            <div class="card-footer p-0">
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item">
                         <a class="nav-link p-0 animated bounce" href="#"
-                           style="margin-bottom: -15px;margin-top: -15px;"><i
+                           style="margin-bottom: -12px;"><i
                                 class="fa fa-caret-up fa-2x"></i></a>
                         <span><strong style="color: #83878A;">{% raw %}{{post.vote}}{% endraw %}</strong></span>
                         <a class="nav-link p-0 animated bounce" href="#"
-                           style="margin-bottom: -12px;margin-top: -14px;"><i
+                           style="margin-top: -12px;"><i
                                 class="fa fa-caret-down fa-2x"></i></a>
                     </li>
                     <li class="nav-item d-flex d-flex justify-content-center align-items-center">
-                        <a class="nav-link p-0" href="#"><i class="fa fa-comment-dots fa-md p-1"></i>Comment</a>
+                        <a class="nav-link p-0" href="#"><i class="fa fa-comment-dots fa-md p-1"></i>Bình luận</a>
                     </li>
                     <li class="nav-item d-flex d-flex justify-content-center align-items-center">
-                        <a class="nav-link p-0" href="#"><i class="fa fa-share fa-md p-1"></i>Share</a>
+                        <a class="nav-link p-0" href="#"><i class="fa fa-share fa-md p-1"></i>Chia sẻ</a>
                     </li>
                     <li class="nav-item d-flex justify-content-center align-items-center">
-                        <a class="nav-link p-0" href="#"><i class="fa fa-bookmark fa-md p-1"></i>Save</a>
+                        <a class="nav-link p-0"
+                           {% if current_user.is_authenticated %}
+                           href="#"
+                           {% else %}
+                           data-toggle="modal" href="signup_modal" data-target="#signup_modal"
+                           {% endif %}><i class="fa fa-bookmark fa-md p-1"></i>Save</a>
                     </li>
                 </ul>
             </div>
