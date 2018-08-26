@@ -17,3 +17,7 @@ body {
 .card-footer a {
     color: #83878A;
 }
+
+.card-footer li:hover {
+    background-color: #F8F9FB;
+}

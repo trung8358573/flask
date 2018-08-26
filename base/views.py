@@ -21,7 +21,7 @@ def login():
 
     user_db = User.query.filter_by(username=username).first()
     if user_db and check_password_hash(user_db.password, password):
-        login_user(user_db, remember=True)
+        login_user(user_db, remember=vals.get('remember'))
         return json.dumps({'status': 'success'})
     else:
         return json.dumps({'status': 'failed'})
@@ -34,22 +34,27 @@ def logout():
 
 @app.route('/post', methods=['POST'])
 def post():
-    vals = dict(request.form)
-    for key, val in vals.items():
-        vals[key] = val[0]
+    if current_user.is_authenticated:
+        vals = dict(request.form)
+        for key, val in vals.items():
+            vals[key] = val[0]
 
-    title = vals.get('title'),
-    url = vals.get('url'),
-    description = vals.get('description')
+        title = vals.get('title'),
+        url = vals.get('url'),
+        description = vals.get('description')
+        votes = vals.get('votes')
 
-    post = Post(
-        title=title,
-        url=url,
-        description=description
-    )
-    db.session.add(post)
-    db.session.commit()
-    return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
+        post = Post(
+            user_id=current_user.id,
+            title=title,
+            url=url,
+            description=description,
+            votes=votes
+        )
+        db.session.add(post)
+        db.session.commit()
+        return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
+
 
 
 @app.route('/signup', methods=['POST'])
@@ -80,12 +85,3 @@ def signup():
         if email_db:
             response['msg'] += 'This email already exists. '
         return json.dumps(response)
-
-
-@app.route('/get', methods=['POST'])
-def get():
-    r = request
-    print(request.form)
-    print(request.values)
-    form = RegisterForm()
-    return render_template('index.html')

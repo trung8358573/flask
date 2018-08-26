@@ -9,6 +9,12 @@
   position: fixed;
 }
 
+#right_col .card{
+  display: flex;
+  flex-basis: 79%;
+  position: fixed;
+}
+
 #left_col .channel{
   display: flex;
   flex-flow: row wrap;

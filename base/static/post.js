@@ -3,13 +3,14 @@ function validate_email(email) {
     return re.test(String(email).toLowerCase());
 }
 
-var post_form = new Vue({
-    el: '#post_form',
+var post_modal = new Vue({
+    el: '#post_modal',
     data: {
         title: '',
         subtitle: '',
         url: '',
         description: '',
+        votes: 1,
         invalid: {
             title: false,
             subtitle: false,
@@ -34,7 +35,8 @@ var post_form = new Vue({
                     title: this.title,
                     subtitle: this.subtitle,
                     url: this.url,
-                    description: this.description
+                    description: this.description,
+                    votes: this.votes
                 },
                 function (data, status) {
                     response = $.parseJSON(data);
@@ -54,6 +56,71 @@ var post_form = new Vue({
     }
 });
 
+var channel_modal = new Vue({
+    el: '#channel_modal',
+    data: {
+        title: '',
+        description: '',
+        private: false,
+        invalid: {
+            title: false
+        },
+        validation_msg: {
+            title: '',
+        },
+        loading: false,
+        alert_failed: false,
+        alert_success: false,
+        alert_msg: ''
+    },
+    methods: {
+        validate: function (e) {
+            if (this.title) {
+                if (this.title.length < 6 | this.title.length > 20) {
+                    this.invalid.title = true;
+                    this.validation_msg.title = 'Title has to be at least 6 characters and no longer than 20 characters';
+                }
+                if (!this.invalid.title) {
+                    return true;
+                }
+                if (!this.title) {
+                    this.invalid.title = true;
+                }
+            }
+        },
+        clear_alerts: function () {
+            this.alert_failed = false;
+            this.alert_success = false;
+            this.alert_msg = '';
+        },
+        send: function () {
+            if (this.validate()) {
+                this.loading = true;
+                this.clear_alerts();
+                $.post('/create_channel', {
+                        title: this.title,
+                        description: this.description,
+                        private: this.private
+                    },
+                    function (data, status) {
+                        response = $.parseJSON(data);
+                        if (response.status == 'success') {
+                            signup_form.alert_success = true;
+                            signup_form.alert_msg = response.msg;
+                            signup_form.loading = false;
+                        } else {
+                            signup_form.alert_failed = true;
+                            signup_form.alert_msg = 'failed';
+                            signup_form.alert_msg = response.msg;
+                            signup_form.loading = false;
+                        }
+                    }
+                );
+            }
+        }
+    }
+});
+
 var signup_form = new Vue({
     el: '#signup_modal',
     data: {
@@ -63,6 +130,7 @@ var signup_form = new Vue({
         email: '',
         username_login: '',
         password_login: '',
+        remember: true,
         invalid: {
             username: false,
             password: false,
@@ -187,6 +255,7 @@ var signup_form = new Vue({
                 $.post('/login', {
                         username: this.username_login,
                         password: this.password_login,
+                        remember: this.remember
                     },
                     function (data, status) {
                         response = $.parseJSON(data);
@@ -268,10 +337,10 @@ var sidebar = new Vue({
     el: '#sidebar',
     data: {
         channels: [{
-                title: 'Funny',
-                url: '#',
-                pic: '../static/channel.png',
-            },
+            title: 'Funny',
+            url: '#',
+            pic: '../static/channel.png',
+        },
             {
                 title: 'Animals',
                 url: '#',
@@ -287,14 +356,12 @@ function dark() {
     if (style.attr("href") === '../static/theme.css') {
         style.attr("href", '../static/dark.css');
         $('body').removeClass('bg-light');
-        $('#feed .card').addClass('border-dark');
-        $('#left_col .card').addClass('border-dark');
+        $('.card').addClass('border-dark');
         $('#top_bar').addClass('border-bottom border-dark');
     } else {
         style.attr("href", '../static/theme.css');
         $('body').addClass('bg-light');
-        $('#feed .card').removeClass('border-dark');
-        $('#left_col .card').removeClass('border-dark');
+        $('.card').removeClass('border-dark');
         $('#top_bar').removeClass('border-bottom border-dark');
     }
 

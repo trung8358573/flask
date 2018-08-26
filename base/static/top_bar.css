@@ -1,42 +1,6 @@
-/* .navbar {
-  display: flex;
-  align-items: center;
-}
-
-#topbar_mid_col{
-  display: flex;
-}
-
-#topbar_mid {
-  flex: 1;
-  display: flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-#button_group {
-  display: flex;
-}
-
-#dark_group {
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-#dark_group i {
-  flex-basis: 10%;
-}
-#dark_group label {
-  flex-basis: 45%;
-}
-
-#user_info {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
- */
+/*#top_bar a:hover {*/
+    /*background-color: 	#5E7EC9;*/
+/*}*/
 
 .switch {
   position: relative;

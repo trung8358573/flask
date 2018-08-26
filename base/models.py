@@ -65,7 +65,13 @@ class Channel(db.Model):
     post_ids = db.relationship('Post', backref='channel', lazy=True)
     admin_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     pic = db.Column(db.String(20), nullable=False, default='default.jpg')
+    private = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return f"Channel('{self.title}')"
+
+# class Feed(db.Model):
+#     __tablename__ = 'feeds'
+#     id = db.Column(db.Integer, primary_key=True)
+#     post_ids = db.relationship('Post', backref='channel', lazy=True)
 

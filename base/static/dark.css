@@ -6,33 +6,19 @@ body {
     background-color: #232323;
 }
 
-#sidebar {
+a {
+    color: white;
+}
+
+.card-header, .card-body, .card-footer, .modal-header, .modal-body, .modal-footer, .nav-item {
     color: white;
     background-color: #232323;
 }
 
-#sidebar a {
-    color: white;
-}
-
-.card-header {
-    color: white;
-    background-color: #232323;
-}
 .card-header a {
-    color: white;
     text-decoration: underline;
 }
 
-.card-footer {
-    color: white;
-    background-color: #232323;
-}
-.card-footer a {
-    color: white;
-}
-
-.modal-header, .modal-body , .modal-footer  {
-    color: white;
-    background-color: gray;
+input {
+    background-color: darkgray;
 }
