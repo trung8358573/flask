@@ -1,7 +1,6 @@
-from flask import request, render_template
-from base import app, db
-from base.forms import RegisterForm
-from base.models import User, Post
+from flask import request, render_template, url_for, abort
+from base import app, db, photos
+from base.models import User, Post, Channel
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user
@@ -10,7 +9,36 @@ from flask import redirect
 
 @app.route('/')
 def front_page():
-    return render_template('index.html')
+    posts = json.dumps([
+        {
+            'title': 'LPT: How to Wake Up in the Morning',
+            'url': '../static/post2.jpg',
+            'user': {
+                'name': 'tim tran',
+                'pic': '../static/user.jpg',
+            },
+            'channel': {
+                'name': 'memes',
+                'pic': '../static/channel.png'
+            },
+            'vote': 100,
+            'time': '2018-08-13 00:55:05.828713',
+            'description': ''
+        }
+    ])
+    channels = json.dumps([
+        {
+            'title': 'Funny',
+            'url': '#',
+            'pic': '../static/channel.png',
+        },
+        {
+            'title': 'Animals',
+            'url': '#',
+            'pic': '../static/channel.png',
+        },
+    ])
+    return render_template('index.html', posts=posts, channels=channels)
 
 
 @app.route('/login', methods=['POST'])
@@ -25,6 +53,7 @@ def login():
         return json.dumps({'status': 'success'})
     else:
         return json.dumps({'status': 'failed'})
+
 
 @app.route('/logout')
 def logout():
@@ -53,8 +82,7 @@ def post():
         )
         db.session.add(post)
         db.session.commit()
-        return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
-
+        return json.dumps({'status': 'success'})
 
 
 @app.route('/signup', methods=['POST'])
@@ -77,7 +105,7 @@ def signup():
         )
         db.session.add(user)
         db.session.commit()
-        return json.dumps({'status': 'success', 'msg': 'Sign up successful!'})
+        return json.dumps({'status': 'success', 'msg': 'Sign up successful! Please login now.'})
     else:
         response = {'status': 'failed', 'msg': ''}
         if user_db:
@@ -85,3 +113,51 @@ def signup():
         if email_db:
             response['msg'] += 'This email already exists. '
         return json.dumps(response)
+
+
+@app.route('/create_channel', methods=['POST'])
+def create_channel():
+    vals = dict(request.form)
+    for key, val in vals.items():
+        vals[key] = val[0]
+
+    title = vals.get('title')
+    description = vals.get('description')
+    private = vals.get('private')
+    if private == 'true':
+        private = True
+    elif private == 'false':
+        private = False
+
+    if current_user.is_authenticated:
+        channel = Channel(
+            title=title,
+            description=description,
+            private=private,
+            admin_id=current_user.id
+        )
+        db.session.add(channel)
+        db.session.commit()
+        return json.dumps({'status': 'success'})
+    else:
+        response = {'status': 'failed'}
+        return json.dumps(response)
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST' and 'photo' in request.files and current_user.is_authenticated:
+        filename = photos.save(request.files['photo'])
+        rec = photos(filename=filename, user=current_user.id)
+        rec.store()
+        return redirect(url_for('show', id=rec.id))
+    return render_template('index.html')
+
+
+@app.route('/photo/<id>')
+def show(id):
+    photo = photos.load(id)
+    if photo is None:
+        abort(404)
+    url = photos.url(photo.filename)
+    return render_template('show.html', url=url, photo=photo)

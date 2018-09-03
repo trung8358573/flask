@@ -5,10 +5,11 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
+    <!--integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"-->
+    <!--crossorigin="anonymous">-->
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">-->
+    <link rel="stylesheet" href="../static/bootstrap.css">
     <link id='style' rel="stylesheet" href="../static/theme.css">
     <link rel="stylesheet" href="../static/top_bar.css">
     <link rel="stylesheet" href="../static/side_bar.css">
@@ -26,24 +27,13 @@
     <div id='top_bar' class="container-fluid text-center theme"
          style='top:0;position: fixed;z-index: 2;font-size: 14px'>
         <div class="row">
-            <div class="col-xs-0 col-sm-2 col-md-4 col-lg-4 d-none d-sm-block">
+            <div class="col-xs-0 col-sm-2 col-md-3 col-lg-3 d-none d-sm-block">
             </div>
-            <div class="col-xs-12 col-sm-8 col-md-4 col-lg-4 theme">
-                <nav class="navbar navbar-expand-lg navbar-dark" style='height: 40px;'>
+            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 theme">
+                <nav class="navbar navbar-expand-lg navbar-dark p-0">
                     <a class="navbar-brand" href="#">
                         <img src="../static/brand.png" class="rounded-circle" width="34" height="34">
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarNavAltMarkup" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div id='topbar_mid_col' class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <a class="nav-item nav-link" href="#" style="color: white;"><i
-                                class="fa fa-fire fa-md p-1"></i>Hot</a>
-                        <a class="nav-item nav-link" href="#" style="color: white;"><i
-                                class="fa fa-star-of-life fa-md p-1"></i>Mới</a>
-                    </div>
                     <div id='dark_group' class="d-flex align-items-center">
                         <i class="fa fa-sun p-1" style="color:white;"></i>
                         <label class="switch m-0">
@@ -52,9 +42,19 @@
                         </label>
                         <i class="fa fa-moon p-1" style="color:white;"></i>
                     </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#topbar_mid_col">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id='topbar_mid_col' class="collapse navbar-collapse">
+                        <a class="nav-item nav-link" href="#" style="color: white;"><i
+                                class="fa fa-fire fa-md p-1"></i>Hot</a>
+                        <a class="nav-item nav-link" href="#" style="color: white;"><i
+                                class="fa fa-star-of-life fa-md p-1"></i>Mới</a>
+                    </div>
                 </nav>
             </div>
-            <div id='topbar_right_col' class="col-xs-0 col-sm-2 col-md-4 col-lg-4 d-none d-sm-block p-0">
+            <div id='topbar_right_col' class="col-xs-0 col-sm-2 col-md-3 col-lg-3 d-none d-sm-block p-1">
                 <div class="d-flex align-items-center">
                     <a class="nav-item nav-link" style="color: white;" data-toggle="modal"
                        {% if current_user.is_authenticated %}
@@ -101,7 +101,7 @@
                        {% endif %}
                        data-target="#channel_modal"><i class="fa fa-plus-circle fa-md p-1"></i>Tạo kênh mới</a>
                     <div class='channel' v-for='channel in channels'>
-                        <img class="rounded-circle border" :src="channel.pic" alt="Generic placeholder image"
+                        <img class="rounded-circle" :src="channel.pic"
                              style="width: 21px;height:21px;">
                         <a class="nav-link p-1" :href="channel.url">{% raw %}{{channel.title}}{% endraw %}</a>
                     </div>
@@ -333,6 +333,13 @@
                                    v-model="votes">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="post_votes" class="col-sm-2 col-form-label">Upload a photo</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" name="photo"
+                                   @change="process_file($event)">
+                        </div>
+                    </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="nsfw">
                         <label class="custom-control-label" for="nsfw">NSFW</label>
@@ -388,17 +395,26 @@
     </div>
 </div>
 {% endif %}
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script type="text/javascript" src="https://unpkg.com/vue-infinite-scroll@2.0.2/vue-infinite-scroll.js"></script>
-<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
-<script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"-->
+<!--integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"-->
+<!--crossorigin="anonymous"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"-->
+<!--integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"-->
+<!--crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+<!--<script type="text/javascript" src="https://unpkg.com/vue-infinite-scroll@2.0.2/vue-infinite-scroll.js"></script>-->
+<!--<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>-->
+<!--<script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>-->
+<script src="../static/jquery-3.3.1.js"></script>
+<script src="../static/bootstrap.bundle.js"></script>
+<script src="../static/vue.js"></script>
+<script type="text/javascript" src="../static/vue-infinite-scroll.js"></script>
+<script type="text/javascript" src="../static/moment.min.js"></script>
+<script>
+    var posts = {{posts | safe}};
+    var channels = {{channels | safe}};
+</script>
 <script type="text/javascript" src="../static/post.js"></script>
 {% endblock %}
 </body>

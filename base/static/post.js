@@ -3,104 +3,46 @@ function validate_email(email) {
     return re.test(String(email).toLowerCase());
 }
 
-var post_modal = new Vue({
-    el: '#post_modal',
-    data: {
-        title: '',
-        subtitle: '',
-        url: '',
-        description: '',
-        votes: 1,
-        invalid: {
-            title: false,
-            subtitle: false,
-            url: false,
-            description: false
-        }
-    },
-    methods: {
-        validate: function (e) {
-            if (this.title && this.url) {
-                return true;
-            }
-            if (!this.title) {
-                this.invalid.title = true;
-            }
-            if (!this.url) {
-                this.invalid.url = true;
-            }
-        },
-        send: function () {
-            $.post('/post', {
-                    title: this.title,
-                    subtitle: this.subtitle,
-                    url: this.url,
-                    description: this.description,
-                    votes: this.votes
-                },
-                function (data, status) {
-                    response = $.parseJSON(data);
-                    if (response.status == 'success') {
-                        signup_form.alert_success = true;
-                        signup_form.alert_msg = response.msg;
-                        signup_form.loading = false;
-                    } else {
-                        signup_form.alert_failed = true;
-                        signup_form.alert_msg = 'failed';
-                        signup_form.alert_msg = response.msg;
-                        signup_form.loading = false;
-                    }
-                }
-            )
-        }
-    }
-});
-
-var channel_modal = new Vue({
-    el: '#channel_modal',
-    data: {
-        title: '',
-        description: '',
-        private: false,
-        invalid: {
-            title: false
-        },
-        validation_msg: {
+if ($('#post_modal')) {
+    var post_modal = new Vue({
+        el: '#post_modal',
+        data: {
             title: '',
+            subtitle: '',
+            url: '',
+            description: '',
+            photo: '',
+            votes: 1,
+            invalid: {
+                title: false,
+                subtitle: false,
+                url: false,
+                description: false
+            }
         },
-        loading: false,
-        alert_failed: false,
-        alert_success: false,
-        alert_msg: ''
-    },
-    methods: {
-        validate: function (e) {
-            if (this.title) {
-                if (this.title.length < 6 | this.title.length > 20) {
-                    this.invalid.title = true;
-                    this.validation_msg.title = 'Title has to be at least 6 characters and no longer than 20 characters';
-                }
-                if (!this.invalid.title) {
+        methods: {
+            process_file: function(event) {
+                this.photo = event.target.files[0]
+            },
+            validate: function (e) {
+                if (this.title && this.url) {
                     return true;
                 }
                 if (!this.title) {
                     this.invalid.title = true;
                 }
-            }
-        },
-        clear_alerts: function () {
-            this.alert_failed = false;
-            this.alert_success = false;
-            this.alert_msg = '';
-        },
-        send: function () {
-            if (this.validate()) {
-                this.loading = true;
-                this.clear_alerts();
-                $.post('/create_channel', {
+                if (!this.url) {
+                    this.invalid.url = true;
+                }
+            },
+            send: function () {
+                $.post('/post', {
                         title: this.title,
+                        subtitle: this.subtitle,
+                        url: this.url,
                         description: this.description,
-                        private: this.private
+                        photo: this.photo,
+                        votes: this.votes
                     },
                     function (data, status) {
                         response = $.parseJSON(data);
@@ -115,11 +57,78 @@ var channel_modal = new Vue({
                             signup_form.loading = false;
                         }
                     }
-                );
+                )
             }
         }
-    }
-});
+    });
+}
+
+if ($('#channel_modal')) {
+    var channel_modal = new Vue({
+        el: '#channel_modal',
+        data: {
+            title: '',
+            description: '',
+            private: false,
+            invalid: {
+                title: false
+            },
+            validation_msg: {
+                title: '',
+            },
+            loading: false,
+            alert_failed: false,
+            alert_success: false,
+            alert_msg: ''
+        },
+        methods: {
+            validate: function (e) {
+                if (this.title) {
+                    if (this.title.length < 6 | this.title.length > 20) {
+                        this.invalid.title = true;
+                        this.validation_msg.title = 'Title has to be at least 6 characters and no longer than 20 characters';
+                    }
+                    if (!this.invalid.title) {
+                        return true;
+                    }
+                    if (!this.title) {
+                        this.invalid.title = true;
+                    }
+                }
+            },
+            clear_alerts: function () {
+                this.alert_failed = false;
+                this.alert_success = false;
+                this.alert_msg = '';
+            },
+            send: function () {
+                if (this.validate()) {
+                    this.loading = true;
+                    this.clear_alerts();
+                    $.post('/create_channel', {
+                            title: this.title,
+                            description: this.description,
+                            private: this.private
+                        },
+                        function (data, status) {
+                            response = $.parseJSON(data);
+                            if (response.status == 'success') {
+                                signup_form.alert_success = true;
+                                signup_form.alert_msg = response.msg;
+                                signup_form.loading = false;
+                            } else {
+                                signup_form.alert_failed = true;
+                                signup_form.alert_msg = 'failed';
+                                signup_form.alert_msg = response.msg;
+                                signup_form.loading = false;
+                            }
+                        }
+                    );
+                }
+            }
+        }
+    });
+}
 
 var signup_form = new Vue({
     el: '#signup_modal',
@@ -286,21 +295,7 @@ var signup_form = new Vue({
 var feed = new Vue({
     el: '#feed',
     data: {
-        posts: [{
-            title: 'LPT: How to Wake Up in the Morning',
-            url: '../static/post2.jpg',
-            user: {
-                name: 'tim tran',
-                pic: '../static/user.jpg',
-            },
-            channel: {
-                name: 'memes',
-                pic: '../static/channel.png'
-            },
-            vote: 100,
-            time: '2018-08-13 00:55:05.828713',
-            description: ''
-        }]
+        posts: posts
     },
     methods: {
         load_more: function () {
@@ -336,17 +331,7 @@ var feed = new Vue({
 var sidebar = new Vue({
     el: '#sidebar',
     data: {
-        channels: [{
-            title: 'Funny',
-            url: '#',
-            pic: '../static/channel.png',
-        },
-            {
-                title: 'Animals',
-                url: '#',
-                pic: '../static/channel.png',
-            },
-        ]
+        channels: channels
     },
     methods: {}
 });
