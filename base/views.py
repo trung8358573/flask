@@ -1,5 +1,5 @@
 from flask import request, render_template, url_for, abort
-from base import app, db, photos
+from base import app, db
 from base.models import User, Post, Channel
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
